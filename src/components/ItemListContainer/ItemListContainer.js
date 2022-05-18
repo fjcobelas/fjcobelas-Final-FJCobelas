@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { pedirDatos } from "../../helpers/pedirDatos"
+/* import { pedirDatos } from "../../helpers/pedirDatos" */
+import { collection, getDocs, getFirestore} from 'firebase/firestore';
 import { ItemList } from "../ItemList/ItemList"
 
  
@@ -12,7 +13,18 @@ export const ItemListContainer = () => {
     const { categoryId } = useParams()
 
     useEffect( () => {
-        setLoading(true)
+        const db = getFirestore();
+
+        const itemCollection = collection(db, 'items');
+        
+        getDocs(itemCollection, categoryId)
+          .then(snapshot => {
+              console.log(snapshot.docs.map(doc => { return {...doc.data(), id: doc.id}}));
+          });
+
+
+
+        /* setLoading(true)
 
         pedirDatos()
             .then((res) => {
@@ -27,7 +39,7 @@ export const ItemListContainer = () => {
             })
             .finally(() => {
                setLoading(false)
-            })
+            }) */
 
     }, [categoryId])
 
