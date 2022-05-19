@@ -20,6 +20,7 @@ export const ItemListContainer = () => {
         getDocs(itemCollection, categoryId)
           .then(snapshot => {
               console.log(snapshot.docs.map(doc => { return {...doc.data(), id: doc.id}}));
+              setProductos(snapshot.docs.map(doc => { return {...doc.data(), id: doc.id}}));
           });
 
 
